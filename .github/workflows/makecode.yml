@@ -12,6 +12,8 @@ jobs:
           submodules: recursive
       - name: Install dependencies
         run: npm install -g pxt
+      - name: Target Arcade
+        run: pxt target arcade
       - name: Build MakeCode Arcade project
         run: pxt arcade build
       - name: Deploy Arcade pages
