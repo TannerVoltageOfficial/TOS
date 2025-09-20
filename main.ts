@@ -16,7 +16,7 @@ function homeSelect() {
 }
 function showHome() {
     homeMenu = miniMenu.createMenu(miniMenu.createMenuItem("About T-OS"), miniMenu.createMenuItem("Close"))
-    homeMenu.onButtonPressed(ControllerButton.A,homeSelect)
+    homeMenu.onButtonPressed(controller.A,homeSelect)
 }
 // --START USELESS CODE--
 scene.setBackgroundColor(2)
