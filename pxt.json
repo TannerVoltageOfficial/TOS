@@ -1,18 +1,22 @@
 {
     "name": "T-OS",
     "version": "0.0.0",
-    "files": [
-        "images.g.jres",
-        "images.g.ts",
-        "main.ts"
-    ],
-    "supportedTargets": [
-        "arcade"
-    ],
     "dependencies": {
         "device": "*",
         "radio-broadcast": "*",
         "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1"
     },
-    "testDependencies": {}
+    "files": [
+        "images.g.jres",
+        "images.g.ts",
+        "main.ts"
+    ],
+    "testDependencies": {},
+    "targetVersions": {
+        "target": "2.0.56",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ]
 }
