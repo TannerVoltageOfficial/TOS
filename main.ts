@@ -1,35 +1,15 @@
-import * as texts from "./english.lang"
-// --- Constants ---
-// Using constants for "magic numbers" and strings makes the code easier to read and maintain.
-const BACKGROUND_COLOR = 2;
-const MENU_TOP_POSITION = 25;
-
-
-// --- Menu Logic ---
-/**
- * Handles the selection from the main home menu.
- * @param selection The string title of the menu item that was selected.
- */
-function handleHomeMenuSelection(selection: string) {
-    switch (selection) {
-        case texts.menuItems.logout:
-            // Resets the game, effectively logging the user out.
-            control.reset();
-            break;
-        case texts.menuItems.about:
-            // Shows a splash screen with OS information.
-            
+let menu: miniMenu.MenuSprite;
+function selectItem(item: string) {
+    switch (item) {
+        default:
+            game.splash("Not implemented!")
             break;
     }
 }
-
-// --- Initialization ---
-scene.setBackgroundColor(BACKGROUND_COLOR);
-game.splash("Welcome to T-OS", texts.VERSION_TEXT);
-
-const homeMenu = miniMenu.createMenu(
-    miniMenu.createMenuItem(texts.menuItems.about, assets.image`infoIcon`),
-    miniMenu.createMenuItem(texts.menuItems.logout)
-);
-homeMenu.top = MENU_TOP_POSITION;
-homeMenu.onButtonPressed(controller.A, handleHomeMenuSelection);
+function createOsMenu() {
+    menu = miniMenu.createMenuFromArray([
+        miniMenu.createMenuItem("About", assets.image`about`),
+    ]);
+    menu.onButtonPressed(controller.A, selectItem)
+}
+createOsMenu();
