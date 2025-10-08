@@ -1,4 +1,4 @@
-import { VERSION_TEXT as v } from "./english.lang"
+import { texts.version as v } from "./languages"
 export namespace aboutApp {
     export function mainActivity() {
         game.splash("About T-OS", v);

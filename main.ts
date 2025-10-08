@@ -1,6 +1,6 @@
-import * as texts from "./english.lang"
-import { aboutApp } from "./aboutApp";
+import { en_us as texts } from "./languages";
 // --- Constants ---
+// These constants define various properties and settings used throughout the application.
 // Using constants for "magic numbers" and strings makes the code easier to read and maintain.
 const BACKGROUND_COLOR = 2;
 const MENU_TOP_POSITION = 25;
@@ -26,7 +26,7 @@ function handleHomeMenuSelection(selection: string) {
 
 // --- Initialization ---
 scene.setBackgroundColor(BACKGROUND_COLOR);
-game.splash("Welcome to T-OS", texts.VERSION_TEXT);
+game.splash("Welcome to T-OS", texts.version);
 
 const homeMenu = miniMenu.createMenu(
     miniMenu.createMenuItem(texts.menuItems.about, assets.image`infoIcon`),
