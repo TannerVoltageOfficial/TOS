@@ -1,4 +1,5 @@
 import * as texts from "./english.lang"
+import { aboutApp } from "./aboutApp";
 // --- Constants ---
 // Using constants for "magic numbers" and strings makes the code easier to read and maintain.
 const BACKGROUND_COLOR = 2;
@@ -18,7 +19,7 @@ function handleHomeMenuSelection(selection: string) {
             break;
         case texts.menuItems.about:
             // Shows a splash screen with OS information.
-            
+            aboutApp.mainActivity();
             break;
     }
 }
