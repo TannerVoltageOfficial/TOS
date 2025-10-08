@@ -1,15 +1,24 @@
 let menu: miniMenu.MenuSprite;
-function selectItem(item: string) {
-    switch (item) {
-        default:
-            game.splash("Not implemented!")
+class homeMenu {
+error = false;
+    selectItem(item: string) {
+        homeMenu.close();
+        switch (item) {
+            default:
+                game.splash("Not implemented!")
+                homeMenu.open();
             break;
     }
 }
-function createOsMenu() {
+static open() {
     menu = miniMenu.createMenuFromArray([
         miniMenu.createMenuItem("About", assets.image`about`),
     ]);
-    menu.onButtonPressed(controller.A, selectItem)
+    menu.onButtonPressed(controller.A, this.selectItem)
 }
-createOsMenu();
+static close() {
+    menu.destroy();
+}
+}
+let home = new homeMenu();
+homeMenu.open();
