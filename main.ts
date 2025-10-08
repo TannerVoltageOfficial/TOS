@@ -12,11 +12,11 @@ const MENU_TOP_POSITION = 25;
  */
 function handleHomeMenuSelection(selection: string) {
     switch (selection) {
-        case texts.MENU_ITEM_LOGOUT:
+        case texts.menuItems.logout:
             // Resets the game, effectively logging the user out.
             control.reset();
             break;
-        case texts.MENU_ITEM_ABOUT:
+        case texts.menuItems.about:
             // Shows a splash screen with OS information.
             
             break;
@@ -28,8 +28,8 @@ scene.setBackgroundColor(BACKGROUND_COLOR);
 game.splash("Welcome to T-OS", texts.VERSION_TEXT);
 
 const homeMenu = miniMenu.createMenu(
-    miniMenu.createMenuItem(texts.MENU_ITEM_ABOUT, assets.image`infoIcon`),
-    miniMenu.createMenuItem(texts.MENU_ITEM_LOGOUT)
+    miniMenu.createMenuItem(texts.menuItems.about, assets.image`infoIcon`),
+    miniMenu.createMenuItem(texts.menuItems.logout)
 );
 homeMenu.top = MENU_TOP_POSITION;
 homeMenu.onButtonPressed(controller.A, handleHomeMenuSelection);
