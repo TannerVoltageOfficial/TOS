@@ -18,7 +18,7 @@ function handleHomeMenuSelection(selection: string) {
             break;
         case texts.MENU_ITEM_ABOUT:
             // Shows a splash screen with OS information.
-            game.splash("T-OS", "Version " + osVersion);
+            
             break;
     }
 }
