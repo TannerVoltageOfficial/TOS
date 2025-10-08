@@ -52,6 +52,22 @@ f . . . . . . 1
 2 2 2 2 2 2 1 f f f 1 2 2 2 2 2 
 2 2 2 2 2 2 1 1 1 1 1 2 2 2 2 2 
 `;
+            case "image4":
+            case "infoIcon":return img`
+. . . 1 1 1 1 1 1 1 . . . 
+. . 1 1 1 1 f 1 1 1 1 . . 
+. 1 1 1 1 1 1 1 1 1 1 1 . 
+1 1 1 1 1 1 f 1 1 1 1 1 1 
+1 1 1 1 1 1 f 1 1 1 1 1 1 
+1 1 1 1 1 1 f 1 1 1 1 1 1 
+1 1 1 1 1 1 f 1 1 1 1 1 1 
+1 1 1 1 1 1 f 1 1 1 1 1 1 
+1 1 1 1 1 1 f 1 1 1 1 1 1 
+1 1 1 1 1 1 f 1 1 1 1 1 1 
+. 1 1 1 1 1 f 1 1 1 1 1 . 
+. . 1 1 1 1 f 1 1 1 1 . . 
+. . . 1 1 1 1 1 1 1 . . . 
+`;
         }
         return null;
     })
@@ -69,6 +85,12 @@ f . . . . . . 1
         }
         return null;
     })
+
+}
+// Auto-generated code. Do not edit.
+
+// Auto-generated code. Do not edit.
+namespace myTiles {
 
 }
 // Auto-generated code. Do not edit.
