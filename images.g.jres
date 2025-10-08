@@ -7,14 +7,6 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "paintBrush"
     },
-    "myImages.image3": {
-        "id": "myImages.image3",
-        "data": "hwQQABAAAAASIiIiIiIiIfEhIiIiIhIfEh8iIiIi8SEi8SEiIhIfIiISHyIi8SEiIiLxIRIfIiIiIhIf8SEiIiIiIvEfIiIiIiIi8R8iIiIiIhIf8SEiIiIi8SESHyIiIhIfIiLxISIi8SEiIhIfIhIfIiIiIvEh8SEiIiIiEh8SIiIiIiIiIQ==",
-        "dataEncoding": "base64",
-        "namespace": "myImages.",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "iconLeave"
-    },
     "myImages.image2": {
         "id": "myImages.image2",
         "data": "hwQQABAAAAAiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIREREREREREfH/8f////8f8f/x/////x/x//H/////HxERERERERERIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIg==",
@@ -25,10 +17,18 @@
     },
     "myImages.image4": {
         "id": "myImages.image4",
-        "data": "hwQNAA0AAAAAEBEREQAAAAARERERAQAAEBERERERAAAREREREREBABEREREREQEAERERERERAQDx8f////8BABEREREREQEAERERERERAQAREREREREBABAREREREQAAABEREREBAAAAEBEREQAAAA==",
+        "data": "hwQNAA0AAAAAkJmZmQAAAABpZmZmBgAAkGZmZmZmAABpZmZmZmYIAGlmZmZmZggAaW9m//9vCAD5//b///8IAGlvZv//bwgAaWZmZmZmCABpZmZmZmYIAGBmZmZmhgAAAGZmZmYIAAAAgIiIiAAAAA==",
         "dataEncoding": "base64",
         "namespace": "myImages.",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "infoIcon"
+    },
+    "myImages.image3": {
+        "id": "myImages.image3",
+        "data": "hwQNAA0AAAAAQERERAAAAABEREREBAAAQCRERCREAABE8kJE8kIEAEQkLyQvRAQARETy8kJEBABERCQvREQEAERE8vJCRAQARCQvJC9EBABE8kJE8kIEAEAkREQkRAAAAEREREQEAAAAQERERAAAAA==",
+        "dataEncoding": "base64",
+        "namespace": "myImages.",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "iconLeave"
     }
 }

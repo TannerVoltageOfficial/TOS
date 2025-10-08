@@ -1,24 +1,33 @@
-let menu: miniMenu.MenuSprite;
-class homeMenu {
-error = false;
-    selectItem(item: string) {
-        homeMenu.close();
-        switch (item) {
-            default:
-                game.splash("Not implemented!")
-                homeMenu.open();
-            break;
+/*
+T-OS
+Tanner's Operating System
+Made by TannerVoltageOfficial on GitHub
+*/
+// --START USELESS VARIABLES--
+let homeMenu: miniMenu.MenuSprite
+let version = "0.0.1"
+let aboutText = "T-OS V" + version + ". \n \nMade by TannerVoltageOfficial on GitHub."
+// --START USELESS FUNCTIONS--
+function showAbout() {
+    game.showLongText(aboutText, DialogLayout.Full)
+}
+function homeSelect(appName: string) {
+    homeMenu.close()
+    switch (appName) {
+        case "About T-OS":
+            showAbout()
+            break
+        default:
+            game.showLongText("Unfortunately, " + appName + " has stopped.", DialogLayout.Bottom)
+            break
     }
+    pauseUntil(() => !controller.A.isPressed())
+    showHome()
 }
-static open() {
-    menu = miniMenu.createMenuFromArray([
-        miniMenu.createMenuItem("About", assets.image`about`),
-    ]);
-    menu.onButtonPressed(controller.A, this.selectItem)
+function showHome() {
+    homeMenu = miniMenu.createMenuFromArray([miniMenu.createMenuItem("About T-OS", assets.image`infoIcon`), miniMenu.createMenuItem("Close", assets.image`iconLeave`)])
+    homeMenu.onButtonPressed(controller.A, homeSelect)
 }
-static close() {
-    menu.destroy();
-}
-}
-let home = new homeMenu();
-homeMenu.open();
+// --START USELESS CODE--
+scene.setBackgroundColor(2)
+showHome()
