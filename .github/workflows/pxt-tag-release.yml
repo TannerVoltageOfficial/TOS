@@ -70,6 +70,26 @@ jobs:
           # install target
           retry pxt target "$TARGET"
 
+          # ensure the installed target is built (creates built/pxt.js needed by staticpkg)
+          TARGET_DIR="node_modules/pxt-$TARGET"
+          if [ -d "$TARGET_DIR" ]; then
+            echo "Building PXT target in $TARGET_DIR"
+            pushd "$TARGET_DIR"
+            echo "Target dir files:"
+            ls -la || true
+            echo "package.json scripts:"; jq -r '.scripts // {}' package.json || true
+
+            # install target deps and run its build script (retry on transient failures)
+            retry bash -lc "npm ci --no-audit --no-fund || npm install --no-audit --no-fund"
+            retry bash -lc "npm run build"
+
+            echo "Built files in target/built:"; ls -la built || true
+            echo "Built files in target/node_modules/pxt-core/built:"; ls -la node_modules/pxt-core/built || true
+            popd
+          else
+            echo "Warning: target dir $TARGET_DIR not found; staticpkg may fail"
+          fi
+
           # install project packages and build
           pxt install
           pxt build
