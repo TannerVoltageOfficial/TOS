@@ -11,6 +11,15 @@ let aboutText = "T-OS V" + version + ". \n \nMade by TannerVoltageOfficial on Gi
 function showAbout() {
     game.showLongText(aboutText, DialogLayout.Full)
 }
+function deleteAllSprites() {
+    // destroy all sprites
+    sprites.allOfKind(SpriteKind.Player).forEach(sprite => sprite.destroy())
+    sprites.allOfKind(SpriteKind.Enemy).forEach(sprite => sprite.destroy())
+    sprites.allOfKind(SpriteKind.Food).forEach(sprite => sprite.destroy())
+    sprites.allOfKind(SpriteKind.Projectile).forEach(sprite => sprite.destroy())
+    sprites.allOfKind(SpriteKind.StatusBar).forEach(sprite => sprite.destroy())
+    sprites.allOfKind(SpriteKind.MiniMenu).forEach(sprite => sprite.destroy())
+}
 function homeSelect(appName: string) {
     homeMenu.close()
     switch (appName) {
