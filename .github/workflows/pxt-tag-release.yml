@@ -71,5 +71,17 @@ jobs:
           # optional: build native/js artifacts
           pxt build
 
-          # Build and publish static site to GitHub Pages
-          pxt staticpkg --route $REPO_NAME --githubpages
+          # Build and publish static site to GitHub Pages from target directory
+          TARGET_DIR="node_modules/pxt-$TARGET"
+          OUTPUT_DIR="$GITHUB_WORKSPACE/built/packaged"
+          echo "Using target dir: $TARGET_DIR; output: $OUTPUT_DIR"
+
+          if [ -d "$TARGET_DIR" ]; then
+            pushd "$TARGET_DIR"
+            # run staticpkg from target (requires pxtarget.json in cwd)
+            pxt staticpkg --route "$REPO_NAME" --output "$OUTPUT_DIR" --githubpages
+            popd
+          else
+            echo "Warning: target dir $TARGET_DIR not found, attempting to run staticpkg from repository root"
+            pxt staticpkg --route "$REPO_NAME" --output "$OUTPUT_DIR" --githubpages
+          fi
