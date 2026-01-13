@@ -26,5 +26,8 @@
         "**/pxt_modules": true,
         "**/.pxt": true,
         "**/mkc.json": true
-    }
+    },
+    "github-actions.workflows.pinned.workflows": [
+        ".github/workflows/pxt-tag-release.yml"
+    ]
 }

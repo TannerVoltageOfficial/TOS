@@ -57,6 +57,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+          # read target id from pxt.json (fallback to 'arcade')
+          TARGET=$(node -e "console.log(require('./pxt.json').targetVersions?.targetId || 'arcade')")
+          echo "Using PXT target: $TARGET"
+
+          # Ensure target is installed
+          pxt target "$TARGET"
+
+          # install packages used by the project
           pxt install
+
+          # optional: build native/js artifacts
+          pxt build
+
           # Build and publish static site to GitHub Pages
           pxt staticpkg --route $REPO_NAME --githubpages
