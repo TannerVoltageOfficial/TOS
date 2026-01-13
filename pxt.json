@@ -4,7 +4,8 @@
     "dependencies": {
         "device": "*",
         "radio-broadcast": "*",
-        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1"
+        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1",
+        "status-bar": "github:jwunderl/pxt-status-bar#v0.4.2"
     },
     "files": [
         "images.g.jres",

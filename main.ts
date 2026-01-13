@@ -5,8 +5,10 @@ Made by TannerVoltageOfficial on GitHub
 */
 // --START USELESS VARIABLES--
 let homeMenu: miniMenu.MenuSprite
-let version = "0.0.1"
-let aboutText = "T-OS V" + version + ". \n \nMade by TannerVoltageOfficial on GitHub."
+let version = "indev"
+let aboutText = `T-OS ${version}. \n \nMade by TannerVoltageOfficial. \n \n Screen resolution\n${screen.width}x${screen.height} \n \nThank you for being here! <3`
+let loadProgress: StatusBarSprite
+let progress: number
 // --START USELESS FUNCTIONS--
 function showAbout() {
     game.showLongText(aboutText, DialogLayout.Full)
@@ -31,10 +33,13 @@ function homeSelect(appName: string) {
             break
     }
     pauseUntil(() => !controller.A.isPressed())
+    deleteAllSprites()
     showHome()
 }
 function showHome() {
-    homeMenu = miniMenu.createMenuFromArray([miniMenu.createMenuItem("About T-OS", assets.image`infoIcon`), miniMenu.createMenuItem("Close", assets.image`iconLeave`)])
+    scene.setBackgroundColor(9)
+    scene.setBackgroundImage(image.create(0,0))
+    homeMenu = miniMenu.createMenuFromArray([miniMenu.createMenuItem("About T-OS", assets.image`infoIcon`), miniMenu.createMenuItem("Log out", assets.image`iconLeave`)])
     homeMenu.onButtonPressed(controller.A, homeSelect)
 }
 function bootSequence() {
