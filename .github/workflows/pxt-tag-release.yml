@@ -1,0 +1,62 @@
+name: Release (tag) — Build & Publish to GitHub Pages
+
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+env:
+  REPO_NAME: ${{ github.event.repository.name }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install pxt CLI
+        run: npm install -g pxt
+
+      - name: Replace indev version with tag
+        env:
+          # GITHUB_REF is like refs/tags/<tag>
+          TAG: ${{ github.ref_name }}
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          echo "Tag='$TAG'"
+          set -e
+
+          # find files containing the exact version marker
+          FILES=$(git grep -l 'let version = "indev"' || true)
+          if [ -z "$FILES" ]; then
+            echo "No files found with 'let version = \"indev\"'"
+          else
+            echo "Updating files:"
+            echo "$FILES"
+            for f in $FILES; do
+              echo "Updating $f"
+              # safe in-place replace, preserves other matches
+              perl -0777 -pe "s/let version =\s*\"indev\"/let version = \"$TAG\"/g" -i "$f"
+            done
+
+            echo "Replacement complete; no git commands were executed by this workflow step."
+          fi
+
+      - name: Install PXT packages and build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pxt install
+          # Build and publish static site to GitHub Pages
+          pxt staticpkg --route $REPO_NAME --githubpages
