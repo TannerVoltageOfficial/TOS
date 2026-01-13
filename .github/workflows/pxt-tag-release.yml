@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install pxt CLI
         run: npm install -g pxt
@@ -53,35 +53,61 @@ jobs:
             echo "Replacement complete; no git commands were executed by this workflow step."
           fi
 
-      - name: Install PXT packages and build
+      - name: Install dependencies and prepare pxt target
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          retry() { n=0; until [ $n -ge 3 ]; do "$@" && break; n=$((n+1)); echo "Retry #$n for: $*"; sleep 5; done; if [ $n -ge 3 ]; then echo "Command failed after retries: $*"; exit 1; fi }
+
           # read target id from pxt.json (fallback to 'arcade')
           TARGET=$(node -e "console.log(require('./pxt.json').targetVersions?.targetId || 'arcade')")
           echo "Using PXT target: $TARGET"
 
-          # Ensure target is installed
-          pxt target "$TARGET"
+          # deterministic install (if package-lock exists)
+          if [ -f package-lock.json ]; then
+            echo "Running npm ci"
+            retry npm ci
+          else
+            echo "No package-lock.json; running npm install"
+            retry npm install
+          fi
 
-          # install packages used by the project
+          # ensure pxt CLI is present
+          npm list -g pxt >/dev/null 2>&1 || npm install -g pxt
+
+          # install target using pxt (retry for transient failures)
+          retry pxt target "$TARGET"
+
+      - name: Build and package site
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          set -euo pipefail
+          # install project packages and build
           pxt install
-
-          # optional: build native/js artifacts
           pxt build
 
-          # Build and publish static site to GitHub Pages from target directory
           TARGET_DIR="node_modules/pxt-$TARGET"
           OUTPUT_DIR="$GITHUB_WORKSPACE/built/packaged"
           echo "Using target dir: $TARGET_DIR; output: $OUTPUT_DIR"
 
           if [ -d "$TARGET_DIR" ]; then
             pushd "$TARGET_DIR"
-            # run staticpkg from target (requires pxtarget.json in cwd)
-            pxt staticpkg --route "$REPO_NAME" --output "$OUTPUT_DIR" --githubpages
+            echo "Running staticpkg in: $(pwd)"
+            retry pxt staticpkg --route "$REPO_NAME" --output "$OUTPUT_DIR"
             popd
           else
             echo "Warning: target dir $TARGET_DIR not found, attempting to run staticpkg from repository root"
-            pxt staticpkg --route "$REPO_NAME" --output "$OUTPUT_DIR" --githubpages
+            retry pxt staticpkg --route "$REPO_NAME" --output "$OUTPUT_DIR"
           fi
+
+          # debug listing
+          echo "Packaged output contents:"
+          ls -la "$OUTPUT_DIR" || true
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./built/packaged/${{ env.REPO_NAME }}
