@@ -14,7 +14,7 @@ enum status {
     Home,
     CrashDialog
 }
-var statusNow: status
+let statusNow: status
 // --START USELESS FUNCTIONS--
 function showAbout() {
     game.showLongText(aboutText, DialogLayout.Full)
