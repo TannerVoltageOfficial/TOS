@@ -82,6 +82,10 @@ jobs:
           REPO_NAME: ${{ github.event.repository.name }}
         run: |
           set -euo pipefail
+          # ensure TARGET is available in this step (recompute from pxt.json)
+          TARGET=$(node -e "console.log(require('./pxt.json').targetVersions?.targetId || 'arcade')")
+          echo "Using PXT target: $TARGET"
+
           # install project packages and build
           pxt install
           pxt build
