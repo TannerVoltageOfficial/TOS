@@ -53,7 +53,7 @@ jobs:
             echo "Replacement complete; no git commands were executed by this workflow step."
           fi
 
-      - name: Install dependencies and prepare pxt target
+      - name: Prepare PXT target (no npm install in repo root)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -64,20 +64,18 @@ jobs:
           TARGET=$(node -e "console.log(require('./pxt.json').targetVersions?.targetId || 'arcade')")
           echo "Using PXT target: $TARGET"
 
-          # deterministic install (if package-lock exists)
-          if [ -f package-lock.json ]; then
-            echo "Running npm ci"
-            retry npm ci
-          else
-            echo "No package-lock.json; running npm install"
-            retry npm install
-          fi
+          # show repo layout for debugging
+          echo "Repo root files:"
+          ls -la || true
+          echo "node_modules (if present):"
+          ls -la node_modules || true
 
           # ensure pxt CLI is present
-          npm list -g pxt >/dev/null 2>&1 || npm install -g pxt
+          command -v pxt >/dev/null 2>&1 || npm install -g pxt
 
           # install target using pxt (retry for transient failures)
           retry pxt target "$TARGET"
+          echo "Installed target; node_modules should contain pxt-$TARGET"
 
       - name: Build and package site
         env:
