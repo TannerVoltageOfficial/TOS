@@ -9,6 +9,12 @@ let version = "indev"
 let aboutText = `T-OS ${version}. \n \nMade by TannerVoltageOfficial. \n \n Screen resolution\n${screen.width}x${screen.height} \n \nThank you for being here! <3`
 let loadProgress: StatusBarSprite
 let progress: number
+enum status {
+    Loading,
+    Home,
+    CrashDialog
+}
+var statusNow: status
 // --START USELESS FUNCTIONS--
 function showAbout() {
     game.showLongText(aboutText, DialogLayout.Full)
