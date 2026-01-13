@@ -50,6 +50,36 @@ jobs:
             echo "Replacement complete; no git commands were executed by this workflow step."
           fi
 
+      - name: Create release branch with patched source
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          BRANCH="release-${TAG}"
+          echo "Preparing branch: $BRANCH"
+          set -e
+
+          # Find modified files (only commit patched sources)
+          MODIFIED=$(git ls-files -m)
+          if [ -z "$MODIFIED" ]; then
+            echo "No modified files to commit; skipping branch creation."
+          else
+            echo "Modified files to commit:"
+            echo "$MODIFIED"
+
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+            # create branch and commit only the modified files
+            git checkout -b "$BRANCH"
+            git add $MODIFIED
+            git commit -m "chore(release): update version to $TAG"
+
+            # push branch to origin
+            git push origin HEAD:"$BRANCH"
+            echo "Pushed branch: $BRANCH"
+          fi
+
       - name: Build & Package (single step)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
