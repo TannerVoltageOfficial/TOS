@@ -37,6 +37,20 @@ function showHome() {
     homeMenu = miniMenu.createMenuFromArray([miniMenu.createMenuItem("About T-OS", assets.image`infoIcon`), miniMenu.createMenuItem("Close", assets.image`iconLeave`)])
     homeMenu.onButtonPressed(controller.A, homeSelect)
 }
+function bootSequence() {
+    scene.setBackgroundColor(15)
+    scene.setBackgroundImage(assets.image`bootScreen`)
+    loadProgress = statusbars.create(screen.width, 5, StatusBarKind.Health)
+    loadProgress.setPosition(screen.width / 2, screen.height - 2.5)
+    loadProgress.setColor(1, 15)
+    progress = 0
+    while (progress < 100) {
+        progress += 1
+        loadProgress.value = progress
+        pause(5)
+    }
+    loadProgress.destroy()
+}
 // --START USELESS CODE--
-scene.setBackgroundColor(2)
+bootSequence()
 showHome()
