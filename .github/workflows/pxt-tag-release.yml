@@ -25,9 +25,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install pxt CLI
-        run: npm install -g pxt
-
       - name: Replace indev version with tag
         env:
           # GITHUB_REF is like refs/tags/<tag>
@@ -53,38 +50,25 @@ jobs:
             echo "Replacement complete; no git commands were executed by this workflow step."
           fi
 
-      - name: Prepare PXT target (no npm install in repo root)
+      - name: Build & Package (single step)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.event.repository.name }}
         run: |
           set -euo pipefail
           retry() { n=0; until [ $n -ge 3 ]; do "$@" && break; n=$((n+1)); echo "Retry #$n for: $*"; sleep 5; done; if [ $n -ge 3 ]; then echo "Command failed after retries: $*"; exit 1; fi }
 
-          # read target id from pxt.json (fallback to 'arcade')
-          TARGET=$(node -e "console.log(require('./pxt.json').targetVersions?.targetId || 'arcade')")
-          echo "Using PXT target: $TARGET"
-
-          # show repo layout for debugging
-          echo "Repo root files:"
-          ls -la || true
-          echo "node_modules (if present):"
-          ls -la node_modules || true
-
           # ensure pxt CLI is present
           command -v pxt >/dev/null 2>&1 || npm install -g pxt
 
-          # install target using pxt (retry for transient failures)
-          retry pxt target "$TARGET"
-          echo "Installed target; node_modules should contain pxt-$TARGET"
-
-      - name: Build and package site
-        env:
-          REPO_NAME: ${{ github.event.repository.name }}
-        run: |
-          set -euo pipefail
-          # ensure TARGET is available in this step (recompute from pxt.json)
+          # read target id and show repo for debugging
           TARGET=$(node -e "console.log(require('./pxt.json').targetVersions?.targetId || 'arcade')")
           echo "Using PXT target: $TARGET"
+          echo "Repo root files:"
+          ls -la || true
+
+          # install target
+          retry pxt target "$TARGET"
 
           # install project packages and build
           pxt install
