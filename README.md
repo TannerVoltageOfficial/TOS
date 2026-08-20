@@ -1,4 +1,6 @@
 # T-OS
+> [!NOTE]
+> this is the legacy codebase, go [here](github.com/RealTannerVoltage/T-OS) or savor the old version lol. I wont delete it at least.
 
 T-OS is a simulated operating system environment built entirely within the **Microsoft MakeCode Arcade** platform. It showcases the capabilities of the MakeCode engine by creating a desktop-like experience designed to be navigated with a game controller.
 
